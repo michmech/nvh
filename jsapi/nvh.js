@@ -7,7 +7,40 @@
 
 const NVH={
 
-  //Parses `input` into an NVH tree, returns the top node.
+  //The constructor of an NVH element. Call it with or without `new`.
+  //`name`: a string, required
+  //`value`: a string, optional, default: an empty string
+  Element: function(name, value){
+    var elm={
+
+      //My three basic properties:
+      name: name, value: value || "", children: [],
+
+      //Who is my parent? If I am the top-level element then this is `null`.
+      //Note: If you've just added me to a parent manually, you need to call a `reparent`
+      //method on my parent in order to keep my `parent` property up-to-date.
+      parent: null,
+
+      //Tell my children that I am their parent:
+      reparentChildren: function(){
+        this.children.map(child => {child.parent=this;});
+      },
+      //Tell all my descendants who their parents are:
+      reparentDescendants: function(){
+        this.reparentChildren();
+        this.children.map(child => {child.reparentDescendants()});
+      },
+      //Tell me that I am the top-level element and tell all my descendants who their parents are:
+      reparentFromTop: function(){
+        this.parent=null;
+        this.reparentDescendants();
+      },
+
+    };
+    return elm;
+  },
+
+  //Parses `input` into an NVH tree, returns the top element.
   //The `input` can be a (multi-line) string or an array of lines.
   //If `input` parses into more than one tree, only the first one is returnd.
   //If `input` parses into zero trees, then the optional argument `ifNull` is retuned, default `null`.
@@ -16,7 +49,7 @@ const NVH={
     return trees.length>0 ? trees[0] : (ifNull || null);
   },
 
-  //Parses `input` into zero, one or more NVH trees, returns an array of their top nodes.
+  //Parses `input` into zero, one or more NVH trees, returns an array of their top elements.
   //The `input` can be a (multi-line) string or an array of lines.
   //The optional `max` argument says how many trees you want at most, default `null` means unlimited.
   parseMany: function(input, max){
@@ -30,57 +63,58 @@ const NVH={
     //OK, let's go line by line:
     input.map((line, iLine) => {
       if(!maxExceeded){
-        //Any lines that don't look like nodes will be ignored:
+        //Any lines that don't look like NVH elements will be ignored:
         line.replace(/^([ \t]*)([^:]+):(.*)$/, function($0, whitespace, name, value){
-          var node={name: name.trim(), value: value.trim(), children: []};
+          var element=new NVH.Element(name.trim(), value.trim(), []);
           //Clean up whitespace, detemine indentation level:
           whitespace=whitespace.replace(/\t/g, "  ");
           if(whitespace.length%2!=0) whitespace+=" ";
           var level=whitespace.length/2;
           //If this is the first line of the first tree, then its level is the top level:
           if(trees.length==0) topLevel=level;
-          //If this is a top-level node:
+          //If this is a top-level element:
           if(level<=topLevel) {
             topLevel=level;
             if(trees.length>=max) maxExceeded=true; else {
-              //Add this top-level node as another tree:
-              trees.push(node);
+              //Add this top-level element as another tree:
+              trees.push(element);
               ancestors=[];
-              ancestors[topLevel]=node;
+              ancestors[topLevel]=element;
             }
           }
-          //If this is not a top-level node:
+          //If this is not a top-level element:
           else {
             //Make sure there exists a parent one step above this level:
             while(!ancestors[level-1] && level>topLevel) level--;
-            //Add this node to its parent as a child:
-            ancestors[level-1].children.push(node);
-            ancestors[level]=node;
+            //Add this element to its parent as a child:
+            ancestors[level-1].children.push(element);
+            ancestors[level]=element;
           }
         });
       }
     });
     //Done:
+    trees.map(tree => {tree.reparentFromTop();});
     return trees;
   },
 
-  //Serializes the `node` and its children into plain text, returns a string.
-  //The optional argument `level` says which indentation level you want to use on the top node, default 0.
-  serialize: function(node, level){
+  //Serializes the `element` and its children into plain text, returns a string.
+  //The optional argument `level` says which indentation level you want to use on the top element, default 0.
+  serialize: function(element, level){
     var level=level || 0;
     var ret="";
     var whitespace=""; for(var i=0; i<level; i++) whitespace+="  ";
-    ret+=`${whitespace}${node.name}: ${node.value}`.trimRight()+"\n";
-    node.children.map(child => {
+    ret+=`${whitespace}${element.name}: ${element.value}`.trimRight()+"\n";
+    element.children.map(child => {
       ret+=NVH.serialize(child, level+1);
     });
     return ret;
   },
 
-  //Serializes an array of `nodes` and their children into plain text, returns a string.
-  //The optional argument `level` says which indentation level you want to use on the top nodes, default 0.
-  serializeMany: function(nodes, level){
-    return nodes.map(node => NVH.serialize(node, level)).join("");
+  //Serializes an array of `elements` and their children into plain text, returns a string.
+  //The optional argument `level` says which indentation level you want to use on the top elements, default 0.
+  serializeMany: function(elements, level){
+    return elements.map(element => NVH.serialize(element, level)).join("");
   },
 
 };
