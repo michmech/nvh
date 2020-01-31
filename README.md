@@ -44,7 +44,7 @@ Compare it to what the same entry might look like when encoded in XML:
 
 You will probably agree that the NVH version is shorter and less verbose than the XML version. NVH can do anything XML can do, but with fewer lines of code and with less technical syntax. NVH is easier for humans to read and write than XML, but retains all of XML's expressivity and machine-readability.
 
-Like in XML, a document in NVH is a basically a tree-structured hierarchy of elements. In our example, this is the top-level element:
+Like in XML, a document in NVH is basically a tree-structured hierarchy of elements. In our example, this is the top-level element:
 
 ```
 headword: bank
