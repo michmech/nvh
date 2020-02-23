@@ -36,6 +36,33 @@ const NVH={
         this.reparentDescendants();
       },
 
+      //Returns an array of my child elements, in document order.
+      //`name`: only return children of this name, default `null` or empty string means children
+      //The optional `max` argument says how many elements you want at most, default `null` means unlimited.
+      getChildren: function(name, max){
+        var ret=[];
+        this.children.map(el => {
+          if(!max || ret.length<max) {
+            if(!name || el.name==name) ret.push(el);
+          }
+        });
+        return ret;
+      },
+
+      //Returns an array of my descendant elements, in document order.
+      //`name`: only return children of this name, default `null` or empty string means children
+      //The optional `max` argument says how many elements you want at most, default `null` means unlimited.
+      getDescendants: function(name, max){
+        var ret=[];
+        this.children.map(el => {
+          if(!max || ret.length<max) {
+            if(!name || el.name==name) ret.push(el);
+            ret=ret.concat(el.getDescendants(name, max-ret.length));
+          }
+        });
+        return ret;
+      },
+
     };
     return elm;
   },
@@ -113,8 +140,9 @@ const NVH={
 
   //Serializes an array of `elements` and their children into plain text, returns a string.
   //The optional argument `level` says which indentation level you want to use on the top elements, default 0.
-  serializeMany: function(elements, level){
-    return elements.map(element => NVH.serialize(element, level)).join("");
+  //The optional argument `separate` says whether you want empty lines between the elements, default `false`.
+  serializeMany: function(elements, level, separate){
+    return elements.map(element => NVH.serialize(element, level)).join(separate ? "\n" : "");
   },
 
 };
