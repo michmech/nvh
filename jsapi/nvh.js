@@ -127,13 +127,15 @@ const NVH={
 
   //Serializes the `element` and its children into plain text, returns a string.
   //The optional argument `level` says which indentation level you want to use on the top element, default 0.
-  serialize: function(element, level){
+  //The optional argument `separateLevel` is the indentation level before which you want an empty line; default 0 meaning none
+  serialize: function(element, level, separateLevel){
     var level=level || 0;
     var ret="";
+    if(level>0 && level==separateLevel) ret+="\n";
     var whitespace=""; for(var i=0; i<level; i++) whitespace+="  ";
     ret+=`${whitespace}${element.name}: ${element.value}`.trimRight()+"\n";
     element.children.map(child => {
-      ret+=NVH.serialize(child, level+1);
+      ret+=NVH.serialize(child, level+1, separateLevel);
     });
     return ret;
   },
