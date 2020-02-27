@@ -1,13 +1,15 @@
-# Name-Value Hierarchy (NVH)
+---
+title: Welcome to Name-Value Hierarchy
+---
 
-**Welcome!** This website provides documentation for NVH, a lightweight markup language intended mainly (but certainly not only) for encoding dictionary entries in lexicography. NVH is a less verbose alternative to XML, to JSON, or to pretty much any serialization language you can think of. To give you a taste, here is what a dictionary entry might look like when encoded in NVH:
+**Welcome!** This website provides documentation for Name-Value Hierarchy, a lightweight markup language intended mainly (but certainly not only) for encoding dictionary entries in lexicography. NVH is a less verbose alternative to XML, to JSON, or to pretty much any serialization language you can think of. To give you a taste, here is what a dictionary entry might look like when encoded in NVH:
 
 ```
 headword: bank
   partOfSpeech: noun
   definition: an institution where you store or borrow money
     translation: банка
-    example: I got a large loan from the bank.
+    example: I got a large loan from the bank.|
       translation: Я получил крупный кредит в банке.
   definition: a stretch of land along a river
     translation: берег
