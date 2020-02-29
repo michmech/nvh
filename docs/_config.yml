@@ -2,9 +2,6 @@ theme: minima
 title: Name-Value Hierarchy
 tagline: A lightweight lexicographic markup language.
 header-pages:
-author:
-  name: Michal Měchura
-  email: "valselob@gmail.com"
-minima:
-  social-links:
-    github: nvh
+author: Michal Měchura
+social:
+  - https://github.com/michmech/nvh
