@@ -31,32 +31,32 @@ The documents above have described what we call the *base* of NVH. In addition t
 
  - **[The *multiname* extension](multiname.md)** allows element names in NVH to consist of several dot-separated *subnames*:
 
-  ```
-  translation.ru: берег
-  translation.de: Ufer
-  translation.cs: břeh
-  translation.ga: bruach
-  ```
+    ```
+    translation.ru: берег
+    translation.de: Ufer
+    translation.cs: břeh
+    translation.ga: bruach
+    ```
 
 - **[The *multivalue* extension](multivalue.md)** allows elements in NVH to contain multiple values, and for each value to have its own child elements:
 
-  ```
-  headword
-    : colour
-        region: ireland
-        region: britain
-    : color
-        region: north-america
-  ```
+    ```
+    headword:
+      - colour
+          region: ireland
+          region: britain
+      - color
+          region: north-america
+    ```
 
 - **[The *inline* extension](inline.md)** enriches NVH with short-hand syntax for inline markup.
 
-  ```
-  example: House {prices} are rising.
-    highlight: {prices}
-      lemma: price
-      partOfSpeech: noun
-  ```
+    ```
+    example: House {prices} are rising.
+      highlight: {prices}
+        lemma: price
+        partOfSpeech: noun
+    ```
 
 The extensions are optional in the sense that a parser (or any other tool you have built) may or may not support the extension, depending on whether it is needed. The base of NVH is brutally simple and writing a parser for it is trivial, which is indeed one of the strengths of NVH. The extensions introduce additional complexity which you may or may not need, depending on what you want to do with NVH. Either way, if you have written an NVH parser or some other tool, it is a good practice to state explicitly whether it supports any extensions, and which ones. The reference parsers of NVH which we have produced in JavaScript and C# (see below) support all extensions.
 
