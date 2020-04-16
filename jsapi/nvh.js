@@ -37,7 +37,7 @@ const NVH={
       },
 
       //Returns an array of my child elements, in document order.
-      //`name`: only return children of this name, default `null` or empty string means children
+      //`name`: only return children of this name, default `null` or empty string means all children
       //The optional `max` argument says how many elements you want at most, default `null` means unlimited.
       getChildren: function(name, max){
         var ret=[];
@@ -50,7 +50,7 @@ const NVH={
       },
 
       //Returns an array of my descendant elements, in document order.
-      //`name`: only return children of this name, default `null` or empty string means children
+      //`name`: only return children of this name, default `null` or empty string means all children
       //The optional `max` argument says how many elements you want at most, default `null` means unlimited.
       getDescendants: function(name, max){
         var ret=[];
