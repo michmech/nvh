@@ -37,26 +37,65 @@ const NVH={
       },
 
       //Returns an array of my child elements, in document order.
-      //`name`: only return children of this name, default `null` or empty string means all children
+      //`name`: only return children having this name, default `null` or empty string means all children
+      //        can be many pipe-delimited names: "definition|gloss"
       //The optional `max` argument says how many elements you want at most, default `null` means unlimited.
       getChildren: function(name, max){
+        var names=[];
+        if(name) name.split("|").map(x => { if(x!="") names.push(x); });
         var ret=[];
         this.children.map(el => {
           if(!max || ret.length<max) {
-            if(!name || el.name==name) ret.push(el);
+            if(names.length==0 || names.indexOf(el.name)>-1) ret.push(el);
+          }
+        });
+        return ret;
+      },
+
+      //Returns an array of my child elements, in document order.
+      //`name`: only return children *not* having this name, default `null` or empty string means all children
+      //        can be many pipe-delimited names: "definition|gloss"
+      //The optional `max` argument says how many elements you want at most, default `null` means unlimited.
+      getChildrenOtherThan: function(name, max){
+        var names=[];
+        if(name) name.split("|").map(x => { if(x!="") names.push(x); });
+        var ret=[];
+        this.children.map(el => {
+          if(!max || ret.length<max) {
+            if(names.length==0 || names.indexOf(el.name)==-1) ret.push(el);
           }
         });
         return ret;
       },
 
       //Returns an array of my descendant elements, in document order.
-      //`name`: only return children of this name, default `null` or empty string means all children
+      //`name`: only return children having this name, default `null` or empty string means all children
+      //        can be many pipe-delimited names: "definition|gloss"
       //The optional `max` argument says how many elements you want at most, default `null` means unlimited.
       getDescendants: function(name, max){
+        var names=[];
+        if(name) name.split("|").map(x => { if(x!="") names.push(x); });
         var ret=[];
         this.children.map(el => {
           if(!max || ret.length<max) {
-            if(!name || el.name==name) ret.push(el);
+            if(names.length==0 || names.indexOf(el.name)>-1) ret.push(el);
+            ret=ret.concat(el.getDescendants(name, max-ret.length));
+          }
+        });
+        return ret;
+      },
+
+      //Returns an array of my descendant elements, in document order.
+      //`name`: only return children *not* having this name, default `null` or empty string means all children
+      //        can be many pipe-delimited names: "definition|gloss"
+      //The optional `max` argument says how many elements you want at most, default `null` means unlimited.
+      getDescendantsOtherThan: function(name, max){
+        var names=[];
+        if(name) name.split("|").map(x => { if(x!="") names.push(x); });
+        var ret=[];
+        this.children.map(el => {
+          if(!max || ret.length<max) {
+            if(names.length==0 || names.indexOf(el.name)==-1) ret.push(el);
             ret=ret.concat(el.getDescendants(name, max-ret.length));
           }
         });
