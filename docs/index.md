@@ -2,7 +2,9 @@
 title: Welcome to NVH
 ---
 
-**Welcome!** This website provides documentation for Name-Value Hierarchy (NVH), a lightweight markup language intended mainly for encoding dictionary entries in lexicography. NVH is a less verbose alternative to XML and JSON. To give you a taste, here is what a dictionary entry might look like when encoded in NVH:
+**Warning: this is work in early stages of progress.**
+
+This website gives information about Name-Value Hierarchy (NVH), a lightweight markup language intended for encoding dictionary entries in lexicography. NVH is a less verbose alternative to XML. To give you a taste, here is what a dictionary entry might look like when encoded in NVH:
 
 ```
 headword: bank
@@ -44,51 +46,52 @@ Compare it to what the same entry might look like when encoded in XML:
 
 You will probably agree that the NVH version is shorter and less verbose than the XML version. NVH can do anything XML can do, but with fewer lines of code and with less technical syntax. NVH is easier for humans to read and write than XML, but retains all of XML's expressivity and machine-readability.
 
-Curious for more? The following documents will explain what it's all about.
+Curious for more? Then read the following documents to understand why NVH exists and how it compares to other serialization languages such as XML and JSON:
 
-- **[An informal introduction to NVH](intro.md)**: Read this first to understand why NVH exists and how it compares to other serialization languages such as XML and JSON.
+- **[An informal introduction to NVH »](intro-to-nvh.md)**
 
-- **[The patterns of XML (ab)use in lexicography](patterns.md)**: Are you not entirely convinced that NVH solves a problem which needs to be solved? Then read this for a detailed analysis of how the use of XML in dictionaries leads to difficulties with excessive structural markup, and how NVH solves those difficulties.
+NVH comes with its own schema language for constrainig the structure of an NVH tree:
 
-- **[The NVH specification](spec.md)**: A formal specification of the NVH serialization language. Read this if you want to write your own NVH parser or some other tool. (More accurately, this specification describes the *base* of NVH – more about that later.)
 
-## Base and extensions
+- **[An informal introduction to NVH Schema »](intro-to-nvh-schema.md)**
 
-The documents above have described what we call the *base* of NVH. In addition to the base, the NVH spefification comes with a couple of optional *extensions*. Each extension enriches NVH with additional features which cater to specific encoding patterns that occur in lexicography often enough to warrant special treatment.
+And, last but not least, NVH comes with its own stylesheet language for pretty-printing an NVH tree into human-readable HTML or into any other document markup language (and yes, even into XML):
 
- **[The *multiname* extension](multiname.md)** allows element names in NVH to consist of several dot-separated *subnames*:
+- **[An informal introduction to NVH Stylesheets »](intro-to-nvh-stylesheets.md)**
 
-```
-translation.ru: берег
-translation.de: Ufer
-translation.cs: břeh
-translation.ga: bruach
-```
 
-**[The *multivalue* extension](multivalue.md)** allows elements in NVH to contain multiple values, and for each value to have its own child elements:
+## NVH compared to XML
 
-```
-headword:
-  - colour
-      region: ireland
-      region: britain
-  - color
-      region: north-america
-```
+If you are not entirely convinced that NVH solves a problem which needs to be solved, then we recommend these long reads.
 
-**[The *inline* extension](inline.md)** enriches NVH with short-hand syntax for inline markup:
+- **[On the use and abuse of XML in lexicography](critique-xml.md)**  A detailed analysis of how the use of XML in dictionaries leads to difficulties with excessive structural markup, and how NVH solves those difficulties.
 
-```
-example: House {prices} are rising.
-  highlight: {prices}
-    lemma: price
-    partOfSpeech: noun
-```
+- **[On some frequent problems with entry schemas and entry stylesheets in lexicography](critique-schemas-stylesheets.md)** Like NVH itself, NVH Schema and NVH Stylesheets are optimized for the needs of lexicography: they make it easy to express the things that often need to be expressed when working with dictionary entries. This document explains what those things are and how those things are sometimes unnecessarily difficult to express in conventional XML-based schema formalisms and stylesheet formalisms such as DTD, RelaxNG and XSLT.
 
-The extensions are optional in the sense that a parser (or any other tool you have built) may or may not support the extension, depending on whether it is needed. The base of NVH is brutally simple and writing a parser for it is trivial, which is indeed one of the strengths of NVH. The extensions introduce additional complexity which you may or may not need, depending on what you want to do with NVH. Either way, if you have written an NVH parser or some other tool, it would be a good practice to state explicitly whether it supports any extensions and which ones. The reference parsers of NVH which we have produced in JavaScript and C# (see below) support all extensions.
 
-All extensions are **base-compatible**: if you have NVH-encoded data which makes use of an extension and if you parse it with a parser which doesn't support that extension, the data will still be valid and will be parsed successfully. For example, a parser which does not support the *multiname* extension will fail to "see" the subnames inside the names, but other than thay it will parse everything without trouble. However, if you are making NVH-encoded data available and if the data relies on an NVH extension in order to be understood correctly, it would a good practice to say so explicitly. And if you have received NVH data where you are not sure which extensions it needs, it's probably safer to parse it with a parser that supports all extensions.
+## Specifications
 
-## Parsers and other tools
+The following are formal specifications of the NVH language, the NVH Schema language, and the NVH Stylesheet language. Read these if you want to write your own parser, validator, or some other tool.
 
-TBD.
+- **[NVH specification »](spec-nvh.md)**
+- **[NVH Schema specification »](spec-nvh-schema.md)**
+- **[NVH Stylesheets specification »](spec-nvh-stylesheets.md)**
+- **[NVH Lookups specification »](spec-nvh-lookups.md)**
+
+
+## Tools
+
+We have parsers and other libraries for NVH in **JavaScript** and **.NET**.
+
+- **[NVH Parser/Serializer](nvh-parser.md)** is a library which converts NVH trees between a plain-text serialization and an in-memory object model. Also, it checks NVH trees for well-formedness and emits user-friendly error messages when the tree is not well-formed.
+
+- **[NVH Traverser](nvh-traverser.md)** is a library for programmer-friendly querying, traversing and manipulating of NVH trees. What XPath is for XML and jQuery is for HTML, the Traverser is for NVH.
+
+- **[NVH Schemer](nvh-schemer.md)** is a library for parsing NVH Schemas and for validating NVH trees against them. If the tree is not valid, Schemer emits user-friendly error messages.
+
+- **[NVH Styler](nvh-styler.md)** is a library for parsing NVH Stylesheets and for applying them onto NVH trees in order to produce human-friendly dictionary entries in HTML or in any other document markup language.
+
+
+## Who uses NVH
+
+TBD
