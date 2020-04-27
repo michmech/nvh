@@ -1,11 +1,11 @@
 /*
-  A JavaScript parser, serializer and object model for NVHs (Name-Value Hierarchies).
+  A JavaScript parser and serializer for NVH (Name-Value Hierarchies).
   https://github.com/michmech/nvh
   Author: Michal Měchura, michmech@lexiconista.com
   This code is under the MIT License.
 */
 
-const NVH={
+const NVHParser={
 
   //The constructor of an NVH element. Call it with or without `new`.
   //`name`: a string, required
@@ -111,7 +111,7 @@ const NVH={
   //If `input` parses into more than one tree, only the first one is returnd.
   //If `input` parses into zero trees, then the optional argument `ifNull` is retuned, default `null`.
   parse: function(input, ifNull){
-    var trees=NVH.parseMany(input, 1);
+    var trees=NVHParser.parseMany(input, 1);
     return trees.length>0 ? trees[0] : (ifNull || null);
   },
 
@@ -131,7 +131,7 @@ const NVH={
       if(!maxExceeded){
         //Any lines that don't look like NVH elements will be ignored:
         line.replace(/^([ \t]*)([^:]+):(.*)$/, function($0, whitespace, name, value){
-          var element=new NVH.Element(name.trim(), value.trim(), []);
+          var element=new NVHParser.Element(name.trim(), value.trim(), []);
           //Clean up whitespace, detemine indentation level:
           whitespace=whitespace.replace(/\t/g, "  ");
           if(whitespace.length%2!=0) whitespace+=" ";
@@ -174,7 +174,7 @@ const NVH={
     var whitespace=""; for(var i=0; i<level; i++) whitespace+="  ";
     ret+=`${whitespace}${element.name}: ${element.value}`.trimRight()+"\n";
     element.children.map(child => {
-      ret+=NVH.serialize(child, level+1, separateLevel);
+      ret+=NVHParser.serialize(child, level+1, separateLevel);
     });
     return ret;
   },
@@ -183,10 +183,10 @@ const NVH={
   //The optional argument `level` says which indentation level you want to use on the top elements, default 0.
   //The optional argument `separate` says whether you want empty lines between the elements, default `false`.
   serializeMany: function(elements, level, separate){
-    return elements.map(element => NVH.serialize(element, level)).join(separate ? "\n" : "");
+    return elements.map(element => NVHParser.serialize(element, level)).join(separate ? "\n" : "");
   },
 
 };
 
 //Try to make myself available as a Node.js module:
-try{ module.exports=NVH; } catch(err){}
+try{ module.exports=NVHParser; } catch(err){}
