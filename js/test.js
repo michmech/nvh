@@ -51,12 +51,12 @@ headword: /.+/
   [1..n] definition: /.+/
     [0..n] label: $label
     [0..n] example: /.+/
-    [0..1] lang: de
-      [1..n] translation: /.+/
-    [0..1] lang: en
-      [1..n] translation: /.+/
-    [0..1] lang: ru
-      [1..n] translation: /.+/
+    [0..1] lang: de @lang
+    [0..1] lang: en @lang
+    [0..1] lang: ru @lang
+
+@lang:
+  [1..n] translation: /.+/
 `;
 
 var style=`
