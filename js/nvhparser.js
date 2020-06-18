@@ -36,6 +36,16 @@ const NVHParser={
         this.reparentDescendants();
       },
 
+      //Returns the first child element, in document order.
+      //`name`: only return a child having this name, default `null` or empty string means all children
+      //        can be many pipe-delimited names: "definition|gloss"
+      //If no such child, then the optional argument `ifNull` is retuned, default `null`.
+      getChild: function(name, ifNull){
+        var arr=this.getChildren(name, 1);
+        if(arr.length>0) return arr[0];
+        return ifNull || null;
+      },
+
       //Returns an array of my child elements, in document order.
       //`name`: only return children having this name, default `null` or empty string means all children
       //        can be many pipe-delimited names: "definition|gloss"
