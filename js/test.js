@@ -1,4 +1,4 @@
-const NVHParser=require("./nvhparser.js");
+const NVH=require("./nvh.js");
 
 var tree=`
 headword: můstek
@@ -20,6 +20,12 @@ headword: můstek
       translation: ski jump
       translation: spring board
 `;
+var el=NVH.parse(tree);
+el.prependChildren(`
+  one: two
+  three: four
+`);
+console.log(el.getText());
 
 var lookups=`
 $pos:

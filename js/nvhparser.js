@@ -1,4 +1,6 @@
 /*
+  OLD PRE-RELEASE VERSION, WILL BE DELETED SOON!!!
+
   A JavaScript parser and serializer for NVH (Name-Value Hierarchies).
   https://github.com/michmech/nvh
   Author: Michal Měchura, michmech@lexiconista.com
