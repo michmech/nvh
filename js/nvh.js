@@ -38,6 +38,36 @@ const NVH={
         return NVH.serialize(this);
       },
 
+      //Returns my parent element.
+      //If I don't have a parent, then returns null.
+      getParent: function(){
+        return this._parent;
+      },
+
+      //Tells you whether I have children. Returns true or false.
+      hasChildren: function(){
+        return this_children.length>0;
+      },
+
+      //Returns (a copy of) an array of my children.
+      getChildren: function(){
+        return this._children.map(x => x);
+      },
+
+      //Returns my first child.
+      //If I don't have children, then returns null.
+      getFirstChild: function(){
+        if(this._children.length>0) return this._children[0];
+        return null;
+      },
+
+      //Returns my last child.
+      //If I don't have children, then returns null.
+      getLastChild: function(){
+        if(this._children.length>0) return this._children[this._children.length-1];
+        return null;
+      },
+
       //Make it so that I am no longer my parent's child.
       removeFromParent: function(){
         if(this._parent){
@@ -82,6 +112,47 @@ const NVH={
         this.appendChildren(child);
       },
 
+      //Returns my sibling who is immediately before me.
+      //If I have no siblings before me, then returns null.
+      getPreviousSibling: function(){
+        if(this._parent){
+          var i=this._parent._children.indexOf(this);
+          if(i>0) return this._parent._children[i-1];
+        }
+        return null;
+      },
+
+      //Returns my sibling who is immediately after me.
+      //If I have no siblings after me, then returns null.
+      getNextSibling: function(){
+        if(this._parent){
+          var i=this._parent._children.indexOf(this);
+          if(i<this._parent._children.length-1) return this._parent._children[i+1];
+        }
+        return null;
+      },
+
+      //Returns an array of my ancestors, including my parent.
+      //Ordered by distance from me, closest first.
+      getAncestors: function(){
+        var ret=[];
+        var parent=this._parent;
+        while(parent) {
+          ret.push(parent);
+          parent=parent._parent;
+        }
+        return ret;
+      },
+
+      //Returns my top-most ancestor.
+      //If I don't have any ancestors, returns null.
+      getTopAncestor: function(){
+        var parent=this._parent;
+        while(parent && parent._parent) {
+          parent=parent._parent;
+        }
+        return parent;
+      },
 
     };
     return elm;

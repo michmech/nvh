@@ -21,11 +21,8 @@ headword: můstek
       translation: spring board
 `;
 var el=NVH.parse(tree);
-el.prependChildren(`
-  one: two
-  three: four
-`);
 console.log(el.getText());
+console.log(el.getLastChild().getLastChild().getLastChild().getTopAncestor().name);
 
 var lookups=`
 $pos:

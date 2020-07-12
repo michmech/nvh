@@ -10,20 +10,20 @@ DONE el.value --> "..."
 DONE el._parent
 DONE el._children
 
-el.getParent() --> el | null
-el.getPreviousSibling(?sel) --> el | null
-el.getNextSibling(?sel) --> el | null
+DONE el.getParent() --> el | null
+DONE el.getPreviousSibling(?sel) --> el | null
+DONE el.getNextSibling(?sel) --> el | null
 
-el.getAncestors(?sel) --> [el]
+DONE el.getAncestors(?sel) --> [el]
 el.getClosestAncestor(?sel) -> el | null
-el.getTopAncestor() -> el | null
+DONE el.getTopAncestor() -> el | null
 
-el.hasChildren(?sel) -> true|false
+DONE el.hasChildren(?sel) -> true|false
 DONE el.clearChildren()
 
-el.getChildren(?sel) -> [el]
-el.getFirstChild(?sel) -> el | null
-el.getLastChild(?sel) -> el | null
+DONE el.getChildren(?sel) -> [el]
+DONE el.getFirstChild(?sel) -> el | null
+DONE el.getLastChild(?sel) -> el | null
 
 el.getDescendants(?sel) -> [el]
 el.getFirstDescendant(?sel) -> el | null
@@ -54,3 +54,7 @@ or:
 	the only argument: a function which
 		- takes an element
 		- returns true or false
+
+PLUS:
+	- negatives (not these names)
+	- paths?
