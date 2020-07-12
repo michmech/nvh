@@ -25,19 +25,19 @@ DONE el.getChildren(?sel) -> [el]
 DONE el.getFirstChild(?sel) -> el | null
 DONE el.getLastChild(?sel) -> el | null
 
-el.getDescendants(?sel) -> [el]
+DONE el.getDescendants(?sel) -> [el]
 el.getFirstDescendant(?sel) -> el | null
 
 DONE el.prependChild[ern](el | [el] | "sourcecode...")
 DONE el.appendChild[ern](el | [el] | "sourcecode...")
 
-el.insertSibling[s]Before(el | [el] | "sourcecode...")
-el.insertSibling[s]After(el | [el] | "sourcecode...")
+DONE el.insertSibling[s]Before(el | [el] | "sourcecode...")
+DONE el.insertSibling[s]After(el | [el] | "sourcecode...")
 
 DONE el.removeFromParent()
-el.replaceWith(el | [el] | "sourcecode...")
+DONE el.replaceWith(el | [el] | "sourcecode...")
 
-el.clone() -> el
+DONE el.clone() -> el
 
 ```
 

@@ -22,7 +22,7 @@ headword: můstek
 `;
 var el=NVH.parse(tree);
 console.log(el.getText());
-console.log(el.getLastChild().getLastChild().getLastChild().getTopAncestor().name);
+console.log(el.clone().getText());
 
 var lookups=`
 $pos:

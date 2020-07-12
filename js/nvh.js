@@ -38,6 +38,12 @@ const NVH={
         return NVH.serialize(this);
       },
 
+      //Returns a (deep) clone of myself and all my descendants.
+      //If I am somebody's child, then the clone is not.
+      clone: function(){
+        return NVH.parse(NVH.serialize(this));
+      },
+
       //Returns my parent element.
       //If I don't have a parent, then returns null.
       getParent: function(){
@@ -69,12 +75,73 @@ const NVH={
       },
 
       //Make it so that I am no longer my parent's child.
+      //If I don't have a parent then nothing happens.
       removeFromParent: function(){
         if(this._parent){
           var i=this._parent._children.indexOf(this);
           if(i>-1) this._parent._children.splice(i, 1);
           this._parent=null;
         }
+      },
+
+      //Make it so that I am no longer my parent's child, and this element (or elements) takes my place.
+      //Input: NVH source code, or an array of elements, or a single element.
+      //If I don't have a parent then nothing happens.
+      replaceWith: function(els){
+        if(this._parent){
+          var i=this._parent._children.indexOf(this);
+          if(i>-1) {
+            els=NVH.parseMany(els);
+            for(var ii=0; ii<els.length; ii++) {
+              this._parent._children.splice(i+ii, 0, els[ii]);
+              els[ii]._parent=this._parent;
+            }
+            this._parent._children.splice(i+ii, 1);
+          }
+          this._parent=null;
+        }
+      },
+
+      //Insert this element (or elements) before me as my siblings.
+      //Input: NVH source code, or an array of elements, or a single element.
+      //If I don't have a parent then nothing happens.
+      insertSiblingsBefore: function(els){
+        if(this._parent){
+          var i=this._parent._children.indexOf(this);
+          if(i>-1) {
+            els=NVH.parseMany(els);
+            for(var ii=0; ii<els.length; ii++) {
+              this._parent._children.splice(i+ii, 0, els[ii]);
+              els[ii]._parent=this._parent;
+            }
+          }
+        }
+      },
+
+      //A synonym for `insertSiblingsBefore`.
+      insertSiblingBefore: function(el){
+        this.insertSiblingsBefore(el);
+      },
+
+      //Insert this element (or elements) after me as my siblings.
+      //Input: NVH source code, or an array of elements, or a single element.
+      //If I don't have a parent then nothing happens.
+      insertSiblingsAfter: function(els){
+        if(this._parent){
+          var i=this._parent._children.indexOf(this)+1;
+          if(i>-1) {
+            els=NVH.parseMany(els);
+            for(var ii=0; ii<els.length; ii++) {
+              this._parent._children.splice(i+ii, 0, els[ii]);
+              els[ii]._parent=this._parent;
+            }
+          }
+        }
+      },
+
+      //A synonym for `insertSiblingsAfter`.
+      insertSiblingAfter: function(el){
+        this.insertSiblingsAfter(el);
       },
 
       //Make it so that my children are no longer my children.
@@ -152,6 +219,18 @@ const NVH={
           parent=parent._parent;
         }
         return parent;
+      },
+
+      //Returns an array of my descendants, including my children.
+      //The descendants are in document order (that is, depth-first).
+      getDescendants: function(){
+        var ret=[];
+        for(var i=0; i<this._children.length; i++) {
+          var child=this._children[i];
+          ret.push(child);
+          ret=ret.concat(child.getDescendants());
+        }
+        return ret;
       },
 
     };
