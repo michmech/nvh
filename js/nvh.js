@@ -55,9 +55,14 @@ const NVH={
         return this_children.length>0;
       },
 
-      //Returns (a copy of) an array of my children.
-      getChildren: function(){
-        return this._children.map(x => x);
+      //Returns (a copy of) an array of my children who have that name.
+      //If name is nullable then returns all children.
+      getChildren: function(name){
+        var ret=[];
+        this._children.map(x => {
+          if(!name || x.name==name) ret.push(x);
+        });
+        return ret;
       },
 
       //Returns my first child.
@@ -221,14 +226,15 @@ const NVH={
         return parent;
       },
 
-      //Returns an array of my descendants, including my children.
+      //Returns an array of my descendants, including my children, that have this name.
       //The descendants are in document order (that is, depth-first).
-      getDescendants: function(){
+      //If name is nullable then returns all descendants.
+      getDescendants: function(name){
         var ret=[];
         for(var i=0; i<this._children.length; i++) {
           var child=this._children[i];
-          ret.push(child);
-          ret=ret.concat(child.getDescendants());
+          if(!name || child.name==name) ret.push(child);
+          ret=ret.concat(child.getDescendants(name));
         }
         return ret;
       },
