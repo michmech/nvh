@@ -21,7 +21,7 @@ headword: můstek
       translation: spring board
 `;
 var el=NVH.parse(tree);
-el.getDescendants("translation").map(x => console.log(x.getText()));
+el.getChildrenOtherThan(["pos", "definition"]).map(x => console.log(x.getText()));
 
 var lookups=`
 $pos:

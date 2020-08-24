@@ -55,12 +55,28 @@ const NVH={
         return this_children.length>0;
       },
 
-      //Returns (a copy of) an array of my children who have that name.
-      //If name is nullable then returns all children.
-      getChildren: function(name){
+      //Returns (a copy of) an array of my children
+      //who have this name (if `names` is a string) or one of these names (if `names` is a non-empty array).
+      //If `names` is nullable then returns all children.
+      //If `names` is an empty array then returns an empty array.
+      getChildren: function(names){
+        if(typeof(names)=="string") names=[names];
         var ret=[];
         this._children.map(x => {
-          if(!name || x.name==name) ret.push(x);
+          if(!names || names.indexOf(x.name)>-1) ret.push(x);
+        });
+        return ret;
+      },
+
+      //Returns (a copy of) an array of my children
+      //who don't have this name (if `names` is a string) or neither of these names (if `names` is a non-empty array).
+      //If `names` is nullable then returns all children.
+      //If `names` is an empty array then returns all children.
+      getChildrenOtherThan: function(names){
+        if(typeof(names)=="string") names=[names];
+        var ret=[];
+        this._children.map(x => {
+          if(!names || names.indexOf(x.name)==-1) ret.push(x);
         });
         return ret;
       },
