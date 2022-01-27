@@ -94,4 +94,4 @@ We have parsers and other libraries for NVH in **JavaScript** and **[Python »](
 
 ## Who uses NVH
 
-TBD
+[Lexical Computing](https://www.lexicalcomputing.com) uses NVH internally and in the [Lexonomy](https://www.lexonomy.eu) dictionary editor as well as [Sketch Engine](https://www.sketchengine.eu) corpus management software.
