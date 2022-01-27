@@ -81,7 +81,7 @@ The following are formal specifications of the NVH language, the NVH Schema lang
 
 ## Tools
 
-We have parsers and other libraries for NVH in **JavaScript** and **.NET**.
+We have parsers and other libraries for NVH in **JavaScript** and **[Python »](python/python.md)**.
 
 - **[NVH Parser/Serializer](nvh-parser.md)** is a library which converts NVH trees between a plain-text serialization and an in-memory object model. Also, it checks NVH trees for well-formedness and emits user-friendly error messages when the tree is not well-formed.
 
