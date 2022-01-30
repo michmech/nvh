@@ -50,10 +50,10 @@ Curious for more? Then read the following documents to understand why NVH exists
 
 - **[An informal introduction to NVH »](intro-to-nvh.md)**
 
-NVH comes with its own schema language for constrainig the structure of an NVH tree:
+NVH comes with its own [schema language](schema.md) for constraining the structure of an NVH tree:
 
 
-- **[An informal introduction to NVH Schema »](intro-to-nvh-schema.md)**
+- **[An informal introduction to NVH Schema »](schema.md)**
 
 And, last but not least, NVH comes with its own stylesheet language for pretty-printing an NVH tree into human-readable HTML or into any other document markup language (and yes, even into XML):
 
@@ -74,14 +74,14 @@ If you are not entirely convinced that NVH solves a problem which needs to be so
 The following are formal specifications of the NVH language, the NVH Schema language, and the NVH Stylesheet language. Read these if you want to write your own parser, validator, or some other tool.
 
 - **[NVH specification »](spec-nvh.md)**
-- **[NVH Schema specification »](spec-nvh-schema.md)**
+- **[NVH Schema specification »](schema.md)**
 - **[NVH Stylesheets specification »](spec-nvh-stylesheets.md)**
 - **[NVH Lookups specification »](spec-nvh-lookups.md)**
 
 
 ## Tools
 
-We have parsers and other libraries for NVH in **JavaScript** and **.NET**.
+We have parsers and other libraries for NVH in **JavaScript** and **[Python »](python/python.md)**.
 
 - **[NVH Parser/Serializer](nvh-parser.md)** is a library which converts NVH trees between a plain-text serialization and an in-memory object model. Also, it checks NVH trees for well-formedness and emits user-friendly error messages when the tree is not well-formed.
 
@@ -94,4 +94,4 @@ We have parsers and other libraries for NVH in **JavaScript** and **.NET**.
 
 ## Who uses NVH
 
-TBD
+[Lexical Computing](https://www.lexicalcomputing.com) uses NVH internally and in the [Lexonomy](https://www.lexonomy.eu) dictionary editor as well as [Sketch Engine](https://www.sketchengine.eu) corpus management software.
