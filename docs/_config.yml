@@ -2,6 +2,7 @@ theme: minima
 title: Name-Value Hierarchy
 tagline: a lightweight markup language
 header_pages:
+  - nothing
 minima:
   social_links:
     github: michmech/nvh
