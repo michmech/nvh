@@ -1,4 +1,6 @@
-# NVH schema
+---
+title: NVH schema
+---
 
 An NVH schema is itself in the NVH format. It is very simple and best explained in an example:
 
