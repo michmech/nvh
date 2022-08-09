@@ -10,7 +10,7 @@ const NVH={
   //The constructor of an NVH element. Call it with or without `new`.
   //`name`: a string, required
   //`value`: a string, optional, default: an empty string
-  Element: function(name, value){
+  Element: function(name, value, inlineIndex){
     var elm={
       //My name. Must be a string.
       name: name,
@@ -18,13 +18,41 @@ const NVH={
       //My value. Must be a string.
       value: value || "",
 
+      //My inline index. If greater than zero, I am inline markup of my parent:
+      inlineIndex: inlineIndex || 0,
+
       //Internal data, not part of the API, do not mess with these.
       _children: [],
       _parent: null,
 
+      //Change my value.
+      //If I am an inliner, propagate the change to my parent's value.
+      changeInlineValue: function(newValue){
+        if(this.inlineIndex && this._parent){
+          var newParentValue="";
+          var newInlineIndex=this.inlineIndex;
+          var subs=this._parent.value.split(this.value);
+          subs.map((sub, i) => {
+            newParentValue+=sub;
+            if(i<subs.length-1){
+              if(i!=this.inlineIndex-1){
+                newParentValue+=this.value;
+              }
+              else {
+                newInlineIndex=newParentValue.split(newValue).length;
+                newParentValue+=newValue;
+              }
+            }
+          });
+          this._parent.value=newParentValue;
+          this.inlineIndex=newInlineIndex;
+        }
+        this.value=newValue;
+      },
+
       //Reparse me from this NVH source code.
       //If the source code parses into more than one top-level element, only the first one is taken.
-      setText: function(text){
+      setSourceCode: function(text){
         var el=NVH.parse(text);
         if(el){
           this.name=el.name;
@@ -34,7 +62,7 @@ const NVH={
       },
 
       //Serialize me into NVH source code.
-      getText: function(){
+      getSourceCode: function(){
         return NVH.serialize(this);
       },
 
@@ -287,7 +315,14 @@ const NVH={
       if(!maxExceeded){
         //Any lines that don't look like NVH elements will be ignored:
         line.replace(/^([ \t]*)([^:]+):(.*)$/, function($0, whitespace, name, value){
-          var element=new NVH.Element(name.trim(), value.trim(), []);
+          //determine the element's inline index, if any:
+          var inlineIndex=0;
+          value=value.replace(/\@([1-9][0-9]*)[ \t]*$/, function($0, num){
+            inlineIndex=parseInt(num);
+            return "";
+          });
+          //create the element:
+          var element=new NVH.Element(name.trim(), value.trim(), inlineIndex);
           //Clean up whitespace, detemine indentation level:
           whitespace=whitespace.replace(/\t/g, "  ");
           if(whitespace.length%2!=0) whitespace+=" ";
@@ -327,7 +362,7 @@ const NVH={
     var ret="";
     if(level>0 && level==separateLevel) ret+="\n";
     var whitespace=""; for(var i=0; i<level; i++) whitespace+="  ";
-    ret+=`${whitespace}${element.name}: ${element.value}`.trimRight()+"\n";
+    ret+=`${whitespace}${element.name}: ${element.value} ${element.inlineIndex ? "@"+element.inlineIndex : ""}`.trimRight()+"\n";
     element._children.map(child => {
       ret+=NVH.serialize(child, level+1, separateLevel);
     });

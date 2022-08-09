@@ -6,7 +6,8 @@ headword: můstek
     property: rod mužský neživotný
   definition: most
     label: zdrob
-    example: Přecházejte přes potok opatrně – můstek je úzký a chybí mu zábradlí.
+    example: Přecházejte přes můstek opatrně – můstek je úzký a chybí mu zábradlí, ten můstek.
+      hilite: můstek @2
     lang: de
       translation: Steg
     lang: en
@@ -21,7 +22,11 @@ headword: můstek
       translation: spring board
 `;
 var el=NVH.parse(tree);
-el.getChildrenOtherThan(["pos", "definition"]).map(x => console.log(x.getText()));
+console.log(el.getSourceCode());
+elExample=el.getDescendants("example")[0];
+elHilite=elExample.getFirstChild();
+elHilite.changeInlineValue("most");
+console.log(el.getSourceCode());
 
 var lookups=`
 $pos:
