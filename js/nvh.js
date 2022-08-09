@@ -96,6 +96,32 @@ const NVH={
         return ret;
       },
 
+      //Returns the first of my children
+      //that has this name (if `names` is a string) or one of these names (if `names` is a non-empty array).
+      //If `names` is nullable then returns my first child, whoever it is.
+      //If `names` is an empty array then returns null.
+      //If I don't have children, ad ifNull is a string, then parses and returns ifNull.
+      //If I don't have children, ad ifNull is nullable, then returns null.
+      getFirstChild: function(names, ifNull){
+        var children=this.getChildren(names);
+        if(children.length>0) return children[0];
+        if(typeof(ifNull)=="string") return NVH.parse(ifNull);
+        return null;
+      },
+
+      //Returns the last of my children
+      //that has this name (if `names` is a string) or one of these names (if `names` is a non-empty array).
+      //If `names` is nullable then returns my first child, whoever it is.
+      //If `names` is an empty array then returns null.
+      //If I don't have children, ad ifNull is a string, then parses and returns ifNull.
+      //If I don't have children, ad ifNull is nullable, then returns null.
+      getLastChild: function(names, ifNull){
+        var children=this.getChildren(names);
+        if(children.length>0) return children[children.length-1];
+        if(typeof(ifNull)=="string") return NVH.parse(ifNull);
+        return null;
+      },
+
       //Returns (a copy of) an array of my children
       //who don't have this name (if `names` is a string) or neither of these names (if `names` is a non-empty array).
       //If `names` is nullable then returns all children.
@@ -107,20 +133,6 @@ const NVH={
           if(!names || names.indexOf(x.name)==-1) ret.push(x);
         });
         return ret;
-      },
-
-      //Returns my first child.
-      //If I don't have children, then returns null.
-      getFirstChild: function(){
-        if(this._children.length>0) return this._children[0];
-        return null;
-      },
-
-      //Returns my last child.
-      //If I don't have children, then returns null.
-      getLastChild: function(){
-        if(this._children.length>0) return this._children[this._children.length-1];
-        return null;
       },
 
       //Make it so that I am no longer my parent's child.
