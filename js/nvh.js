@@ -241,22 +241,26 @@ const NVH={
       },
 
       //Returns my sibling who is immediately before me.
-      //If I have no siblings before me, then returns null.
-      getPreviousSibling: function(){
+      //If I have no siblings before me, then parses and returns ifNull.
+      //If ifNull is nullable then return null.
+      getPreviousSibling: function(ifNull){
         if(this._parent){
           var i=this._parent._children.indexOf(this);
           if(i>0) return this._parent._children[i-1];
         }
+        if(ifNull) return NVH.parse(ifNull);
         return null;
       },
 
       //Returns my sibling who is immediately after me.
-      //If I have no siblings after me, then returns null.
-      getNextSibling: function(){
+      //If I have no siblings after me, then parses and returns ifNull.
+      //If ifNull is nullable then return null.
+      getNextSibling: function(ifNull){
         if(this._parent){
           var i=this._parent._children.indexOf(this);
           if(i<this._parent._children.length-1) return this._parent._children[i+1];
         }
+        if(ifNull) return NVH.parse(ifNull);
         return null;
       },
 
