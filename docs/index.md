@@ -2,8 +2,6 @@
 title: Welcome to NVH
 ---
 
-**Warning: this is work in early stages of progress.**
-
 Name-Value Hierarchy (NVH) is a lightweight markup language intended for encoding dictionary entries in lexicography. NVH is a less verbose alternative to XML. To give you a taste, here is what a dictionary entry might look like when encoded in NVH:
 
 ```
