@@ -1,7 +1,5 @@
 # Name-Value Hierarchy (NVH)
 
-**Warning: this is work in early stages of progress.**
-
 NVH is a lightweight markup language intended for encoding dictionary entries in lexicography. NVH is a less verbose alternative to XML.
 
 Example:
